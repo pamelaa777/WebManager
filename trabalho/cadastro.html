@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Cadastro</title>
+</head>
+<body>
+    <div class="main-login">
+        <div class="left-login">
+            <h1>Cadastre-se<br>Sistemas De Notas</h1>
+            <img src="imagem.svg" alt="imagem animacao">
+        </div>
+        <div class="right-login">
+            <div class="card-login">
+                <h1>Cadastro</h1>
+                <form name="form" action="cadastro.php" method="post">
+                    <div class="textfield">
+                        <label for="nome">Nome</label>
+                        <input type="text" name="nome" placeholder="Nome completo" required>
+                    </div>
+                    <div class="textfield">
+                        <label for="sobrenome">Sobrenome</label>
+                        <input type="text" name="sobrenome" placeholder="Sobrenome" required>
+                    </div>
+                    <div class="textfield">
+                        <label for="email">E-mail</label>
+                        <input type="email" name="email" placeholder="E-mail" required>
+                    </div>
+                    <div class="textfield">
+                        <label for="senha">Senha</label>
+                        <input type="password" name="senha" placeholder="Senha" required>
+                    </div>
+                    <div class="textfield">
+                        <label for="dataNasc">Data de Nascimento</label>
+                        <input type="date" name="dataNasc" required>
+                    </div>
+                    <div class="textfield">
+                        <label for="perfil">Perfil de Acesso</label>
+                        <select name="perfil" required>
+                            <option value="aluno">Aluno</option>
+                            <option value="professor">Professor</option>
+                            <option value="tecnico">Técnico</option>
+                        </select>
+                    </div>
+
+                    <!-- Div para campos específicos de cada perfil -->
+                    <div id="generateEspecificHtml"></div>
+
+                    <button class="btn-login" type="submit">Cadastrar</button>   
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Definições de campos específicos para cada perfil
+        const perfilHtml = {
+            'aluno': [
+                {
+                    'name': "cpf",
+                    'label': "CPF",
+                    'placeholder': "999.999.999-99",
+                },
+                {
+                    'name': "curso",
+                    'label': "Curso",
+                    'placeholder': "Curso",
+                },
+                {
+                    'name': "matricula",
+                    'label': "Matrícula",
+                    'placeholder': "Matrícula",
+                }
+            ],
+            'professor': [
+                {
+                    'name': "departamento",
+                    'label': "Departamento",
+                    'placeholder': "Departamento",
+                },
+                {
+                    'name': "areaAtuacao",
+                    'label': "Área de Atuação",
+                    'options': [
+                        { value: "portugues", text: "Português" },
+                        { value: "matematica", text: "Matemática" },
+                        { value: "historia", text: "História" },
+                        { value: "geografia", text: "Geografia" },
+                        { value: "ciencias", text: "Ciências" },
+                        { value: "ti", text: "TI" }
+                    ]
+                }
+            ],
+            'tecnico': [
+                {
+                    'name': "setor",
+                    'label': "Setor",
+                    'placeholder': "Setor",
+                }
+            ]
+        };
+
+        function ChangePerfil() {
+            const perfilSelect = document.querySelector('select[name="perfil"]');
+            const perfilSelectValue = perfilSelect.value; 
+            const fatherDiv = document.getElementById('generateEspecificHtml');
+            fatherDiv.innerHTML = '';
+
+            const selectedPerfilData = perfilHtml[perfilSelectValue];
+            if (selectedPerfilData) {
+                for (const spd of selectedPerfilData) {
+                    const div = document.createElement('div');
+                    div.classList.add('textfield');
+
+                    // Verifica se é um campo de seleção (área de atuação para professor)
+                    if (spd.options) {
+                        const selectField = document.createElement('select');
+                        selectField.name = spd.name;
+                        selectField.required = true;
+                        const label = document.createElement('label');
+                        label.setAttribute('for', spd.name);
+                        label.innerText = spd.label;
+                        div.appendChild(label);
+
+                        spd.options.forEach(optionData => {
+                            const option = document.createElement('option');
+                            option.value = optionData.value;
+                            option.innerText = optionData.text;
+                            selectField.appendChild(option);
+                        });
+
+                        div.appendChild(selectField);
+                    } else {
+                        div.innerHTML = `
+                            <label for="${spd.name}">${spd.label}</label>
+                            <input type="text" name="${spd.name}" placeholder="${spd.placeholder}" required>
+                        `;
+                    }
+                    fatherDiv.appendChild(div);
+                }
+            }
+        }
+
+        // Exibe campos específicos para o perfil selecionado
+        const perfilSelect = document.querySelector('select[name="perfil"]');
+        perfilSelect.addEventListener('change', ChangePerfil);
+        window.addEventListener('load', ChangePerfil);
+    </script>
+</body>
+</html>
+

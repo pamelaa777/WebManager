@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Adicionar Notas</title>
+</head>
+<body>
+    <div class="main-login">
+        <div class="left-login">
+            <h1>Adicionar Notas</h1>
+            <img src="imagem.svg" alt="imagem animacao">
+        </div>
+        <div class="right-login">
+            <div class="card-login">
+                <h1>Inserir Nota</h1>
+                <form action="adicionar-nota.html" method="post">
+                    <div class="textfield">
+                        <label for="nomeAluno">Nome do Aluno</label>
+                        <input type="text" name="nomeAluno" placeholder="Nome do Aluno" required>
+                    </div>
+                    <div class="textfield">
+                        <label for="disciplina">Disciplina</label>
+                        <input type="text" name="disciplina" placeholder="Disciplina" required>
+                    </div>
+                    <div class="textfield">
+                        <label for="nota">Nota</label>
+                        <input type="number" name="nota" placeholder="Nota" step="0.1" min="0" max="10" required>
+                    </div>
+                    <button class="btn-login" type="submit">Adicionar Nota</button>
+                </form>
+                <a href="index.html" class="btn-login">Sair</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
